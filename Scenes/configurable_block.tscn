@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://8he2ouh2tkpd"]
+
+[ext_resource type="Script" uid="uid://w3q520kfcpfr" path="res://Scripts/player.gd" id="1_twm8c"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_s4w0t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdjor"]
+size = Vector2(200, 40)
+
+[node name="Player" type="Node2D" unique_id=1702191844 node_paths=PackedStringArray("player_colored_box", "collision_box")]
+modulate = Color(1, 0.40392157, 1, 1)
+script = ExtResource("1_twm8c")
+SIZE = Vector2(200, 40)
+speed = 500.0
+player_colored_box = NodePath("PlayerColoredBox")
+collision_box = NodePath("Area2D/CollisionShape2D")
+
+[node name="PlayerColoredBox" type="Sprite2D" parent="." unique_id=847215292]
+scale = Vector2(200, 40)
+texture = SubResource("CanvasTexture_s4w0t")
+metadata/_edit_lock_ = true
+
+[node name="Area2D" type="Area2D" parent="." unique_id=559088901]
+collision_mask = 2
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1842054419]
+shape = SubResource("RectangleShape2D_gdjor")
+metadata/_edit_lock_ = true
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

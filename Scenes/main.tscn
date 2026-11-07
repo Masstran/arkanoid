@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://cqow47bch5ocs"]
+
+[ext_resource type="Script" uid="uid://blyusjbdydqg5" path="res://Scripts/main.gd" id="1_bo1nx"]
+[ext_resource type="Script" uid="uid://w3q520kfcpfr" path="res://Scripts/player.gd" id="1_jjgbg"]
+[ext_resource type="Script" uid="uid://bb34rsd37ckov" path="res://Scripts/input_controller.gd" id="3_8gbba"]
+[ext_resource type="PackedScene" uid="uid://cupyerhyeiyue" path="res://Scenes/ball.tscn" id="4_jjvhh"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_s4w0t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdjor"]
+size = Vector2(200, 40)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jjvhh"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_d8v7h"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_s4w0t"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kry3j"]
+
+[node name="Main" type="Node2D" unique_id=704396502]
+script = ExtResource("1_bo1nx")
+
+[node name="InputController" type="Node" parent="." unique_id=1902262391 node_paths=PackedStringArray("player")]
+script = ExtResource("3_8gbba")
+player = NodePath("Player")
+
+[node name="Player" type="Node2D" parent="InputController" unique_id=1632120863 node_paths=PackedStringArray("player_colored_box", "collision_box")]
+modulate = Color(1, 0.40392157, 1, 1)
+position = Vector2(941, 999)
+script = ExtResource("1_jjgbg")
+SIZE = Vector2(200, 40)
+speed = 500.0
+player_colored_box = NodePath("PlayerColoredBox")
+collision_box = NodePath("Area2D/CollisionShape2D")
+
+[node name="PlayerColoredBox" type="Sprite2D" parent="InputController/Player" unique_id=297218883]
+scale = Vector2(200, 40)
+texture = SubResource("CanvasTexture_s4w0t")
+metadata/_edit_lock_ = true
+
+[node name="Area2D" type="Area2D" parent="InputController/Player" unique_id=294876092]
+collision_mask = 2
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InputController/Player/Area2D" unique_id=1059797130]
+shape = SubResource("RectangleShape2D_gdjor")
+metadata/_edit_lock_ = true
+
+[node name="Enemy Block" type="Node2D" parent="." unique_id=1015138336]
+visible = false
+
+[node name="PlayerColoredBox" type="Sprite2D" parent="Enemy Block" unique_id=1444543808]
+scale = Vector2(200, 40)
+texture = SubResource("CanvasTexture_s4w0t")
+metadata/_edit_lock_ = true
+
+[node name="Area2D" type="Area2D" parent="Enemy Block" unique_id=2060716107]
+collision_mask = 2
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy Block/Area2D" unique_id=1014169832]
+shape = SubResource("RectangleShape2D_gdjor")
+metadata/_edit_lock_ = true
+
+[node name="Borders" type="Node2D" parent="." unique_id=951519982]
+
+[node name="RightBorder" type="Area2D" parent="Borders" unique_id=1718721289]
+collision_layer = 8
+collision_mask = 7
+
+[node name="RightCollision" type="CollisionShape2D" parent="Borders/RightBorder" unique_id=1161533596]
+position = Vector2(1920, 0)
+shape = SubResource("WorldBoundaryShape2D_jjvhh")
+
+[node name="TopBorder" type="Area2D" parent="Borders" unique_id=1907515769]
+collision_layer = 8
+collision_mask = 7
+
+[node name="TopCollision" type="CollisionShape2D" parent="Borders/TopBorder" unique_id=1187980448]
+shape = SubResource("WorldBoundaryShape2D_d8v7h")
+
+[node name="LeftBorder" type="Area2D" parent="Borders" unique_id=1795242826]
+collision_layer = 8
+collision_mask = 7
+
+[node name="LeftCollision" type="CollisionShape2D" parent="Borders/LeftBorder" unique_id=1116217061]
+shape = SubResource("WorldBoundaryShape2D_s4w0t")
+
+[node name="BottomBorder" type="Area2D" parent="Borders" unique_id=1026944681]
+collision_layer = 8
+collision_mask = 7
+
+[node name="BottomCollision" type="CollisionShape2D" parent="Borders/BottomBorder" unique_id=2054256021]
+position = Vector2(0, 1080)
+shape = SubResource("WorldBoundaryShape2D_kry3j")
+
+[node name="Ball" parent="." unique_id=458514766 node_paths=PackedStringArray("world_border") instance=ExtResource("4_jjvhh")]
+position = Vector2(938, 899)
+speed = 400.0
+world_border = NodePath("../Borders/RightBorder")
+
+[node name="GameController" type="Node" parent="." unique_id=1220248490]
+
+[connection signal="something_hit_me" from="InputController/Player" to="Ball" method="_on_player_something_hit_me"]
+[connection signal="area_entered" from="InputController/Player/Area2D" to="InputController/Player" method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="InputController/Player/Area2D" to="Ball" method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Borders/RightBorder" to="Ball" method="_on_side_border_area_entered"]
+[connection signal="area_entered" from="Borders/TopBorder" to="Ball" method="_on_top_border_area_entered"]
+[connection signal="area_entered" from="Borders/LeftBorder" to="Ball" method="_on_side_border_area_entered"]
+[connection signal="area_entered" from="Borders/BottomBorder" to="Ball" method="_on_top_border_area_entered"]

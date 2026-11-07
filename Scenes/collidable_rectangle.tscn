@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dvih36mbhs43y"]
+
+[ext_resource type="Script" uid="uid://d02b3nu8m1b7b" path="res://Scenes/collidable_rectangle.gd" id="1_4223r"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_s4w0t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gdjor"]
+size = Vector2(200, 40)
+
+[node name="CollidableRectangle" type="Node2D" unique_id=1309923721 node_paths=PackedStringArray("player_colored_box", "collision_box")]
+script = ExtResource("1_4223r")
+player_colored_box = NodePath("Sprite")
+collision_box = NodePath("Area2D/CollisionShape2D")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1489695568]
+scale = Vector2(200, 40)
+texture = SubResource("CanvasTexture_s4w0t")
+metadata/_edit_lock_ = true
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1282437322]
+collision_mask = 2
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1034743399]
+shape = SubResource("RectangleShape2D_gdjor")
+metadata/_edit_lock_ = true

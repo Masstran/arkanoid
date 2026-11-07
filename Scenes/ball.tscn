@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cupyerhyeiyue"]
+
+[ext_resource type="Script" uid="uid://bgeis7do5gs54" path="res://Scenes/box.gd" id="1_ij5cq"]
+[ext_resource type="Texture2D" uid="uid://tf7s57r51p87" path="res://Assets/circle.svg" id="2_376qj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s4w0t"]
+radius = 20.0
+
+[node name="Ball" type="Node2D" unique_id=458514766 node_paths=PackedStringArray("sprite_circle", "collision_circle")]
+script = ExtResource("1_ij5cq")
+RADIUS = 20.0
+sprite_circle = NodePath("Ball")
+collision_circle = NodePath("Area2D/CollisionShape2D")
+speed = null
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1516835011]
+collision_layer = 2
+collision_mask = 5
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=264381198]
+shape = SubResource("CircleShape2D_s4w0t")
+metadata/_edit_lock_ = true
+
+[node name="Ball" type="Sprite2D" parent="." unique_id=1784136694]
+position = Vector2(0, 1.9073486e-06)
+scale = Vector2(0.26490065, 0.26490065)
+texture = ExtResource("2_376qj")
+metadata/_edit_lock_ = true
